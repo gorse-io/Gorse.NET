@@ -1,6 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gorse.NET", "Gorse.NET.csproj", "{587DFDFC-4F63-4CF0-825F-A7F4638A09B7}"
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1704.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gorse.NET", "Gorse.NET\Gorse.NET.csproj", "{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gorse.NET.Tests", "Gorse.NET.Tests\Gorse.NET.Tests.csproj", "{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{587DFDFC-4F63-4CF0-825F-A7F4638A09B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{587DFDFC-4F63-4CF0-825F-A7F4638A09B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{587DFDFC-4F63-4CF0-825F-A7F4638A09B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{587DFDFC-4F63-4CF0-825F-A7F4638A09B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11413C09-B877-4153-85DE-705A35D98314}
 	EndGlobalSection
 EndGlobal

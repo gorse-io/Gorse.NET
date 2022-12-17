@@ -31,4 +31,17 @@ public class Tests
             Assert.That(e.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
     }
+
+    [Test]
+    public void TestFeedback()
+    {
+        // Insert feedback
+        var feedbacks = new Feedback[]
+        {
+            new Feedback{FeedbackType="read", UserId="10", ItemId="3", Timestamp="2022-11-20T13:55:27Z"},
+            new Feedback{FeedbackType="read", UserId="10", ItemId="4", Timestamp="2022-11-20T13:55:27Z"},
+        };
+        var rowAffected = client.InsertFeedback(feedbacks);
+        Assert.That(rowAffected.RowAffected, Is.EqualTo(2));
+    }
 }

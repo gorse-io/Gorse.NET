@@ -21,6 +21,19 @@ public class User
     }
 }
 
+public class Feedback
+{
+    public string FeedbackType { set; get; } = "";
+    public string UserId { set; get; } = "";
+    public string ItemId { set; get; } = "";
+    public string Timestamp { set; get; } = "";
+
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);
+    }
+}
+
 public class Result
 {
     public int RowAffected { set; get; }
@@ -60,6 +73,11 @@ public class Gorse
     public Result DeleteUser(string userId)
     {
         return Request<Result, Object>(Method.Delete, "api/user/" + userId, null);
+    }
+
+    public Result InsertFeedback(Feedback[] feedbacks)
+    {
+        return Request<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks);
     }
 
     public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType: class

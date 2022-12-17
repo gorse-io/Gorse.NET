@@ -1,5 +1,6 @@
-namespace Gorse.NET.Tests;
+﻿namespace Gorse.NET.Tests;
 
+using StackExchange.Redis;
 using System.Net;
 
 public class Tests
@@ -8,6 +9,11 @@ public class Tests
     private const string API_KEY = "zhenghaoz";
 
     private Gorse client = new Gorse(ENDPOINT, API_KEY);
+    private ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(
+        new ConfigurationOptions
+        {
+            EndPoints = { "127.0.0.1:6379" }
+        });
 
     [Test]
     public void TestUsers()
@@ -43,5 +49,19 @@ public class Tests
         };
         var rowAffected = client.InsertFeedback(feedbacks);
         Assert.That(rowAffected.RowAffected, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void TestRecommend()
+    {
+        var db = redis.GetDatabase();
+        db.SortedSetAdd("offline_recommend/10", new SortedSetEntry[]
+        {
+            new SortedSetEntry("10", 1),
+            new SortedSetEntry("20", 2),
+            new SortedSetEntry("30", 3)
+        });
+        var items = client.GetRecommend("10");
+        Assert.That(items, Is.EqualTo(new string[] { "10", "20", "30" }));
     }
 }

@@ -14,9 +14,13 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.86" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gorse.NET\Gorse.NET.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="StackExchange.Redis" />
   </ItemGroup>
 </Project>

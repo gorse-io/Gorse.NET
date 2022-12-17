@@ -80,6 +80,11 @@ public class Gorse
         return Request<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks);
     }
 
+    public string[] GetRecommend(string userId)
+    {
+        return Request<string[], Object>(Method.Get, "api/recommend/" + userId, null);
+    }
+
     public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType: class
     {
         var request = new RestRequest(resource, method);

@@ -1,4 +1,4 @@
-﻿namespace Gorse.NET.Tests;
+namespace Gorse.NET.Tests;
 
 using StackExchange.Redis;
 using System.Net;
@@ -62,6 +62,6 @@ public class Tests
             new SortedSetEntry("30", 3)
         });
         var items = client.GetRecommend("10");
-        Assert.That(items, Is.EqualTo(new string[] { "10", "20", "30" }));
+        Assert.That(items, Is.EqualTo(new string[] { "30", "20", "10" }));
     }
 }

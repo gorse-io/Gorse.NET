@@ -65,9 +65,19 @@ public class Gorse
         return Request<Result, User>(Method.Post, "api/user", user);
     }
 
+    public Task<Result> InsertUserAsync(User user)
+    {
+        return RequestAsync<Result, User>(Method.Post, "api/user", user);
+    }
+
     public User GetUser(string userId)
     {
         return Request<User, Object>(Method.Get, "api/user/" + userId, null);
+    }
+
+    public Task<User> GetUserAsync(string userId)
+    {
+        return RequestAsync<User, Object>(Method.Get, "api/user/" + userId, null);
     }
 
     public Result DeleteUser(string userId)
@@ -75,14 +85,29 @@ public class Gorse
         return Request<Result, Object>(Method.Delete, "api/user/" + userId, null);
     }
 
+    public Task<Result> DeleteUserAsync(string userId)
+    {
+        return RequestAsync<Result, Object>(Method.Delete, "api/user/" + userId, null);
+    }
+
     public Result InsertFeedback(Feedback[] feedbacks)
     {
         return Request<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks);
     }
 
+    public Task<Result> InsertFeedbackAsync(Feedback[] feedbacks)
+    {
+        return RequestAsync<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks);
+    }
+
     public string[] GetRecommend(string userId)
     {
         return Request<string[], Object>(Method.Get, "api/recommend/" + userId, null);
+    }
+
+    public Task<string[]> GetRecommendAsync(string userId)
+    {
+        return RequestAsync<string[], Object>(Method.Get, "api/recommend/" + userId, null);
     }
 
     public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType: class
@@ -101,6 +126,42 @@ public class Gorse
                 Message = response.Content
             };
         } else if (response.Content == null)
+        {
+            throw new GorseException
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                Message = "unexcepted empty response"
+            };
+        }
+        RetType? ret = JsonSerializer.Deserialize<RetType>(response.Content);
+        if (ret == null)
+        {
+            throw new GorseException
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                Message = "unexcepted null response"
+            };
+        }
+        return ret;
+    }
+
+    public async Task<RetType> RequestAsync<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class
+    {
+        var request = new RestRequest(resource, method);
+        if (req != null)
+        {
+            request.AddJsonBody(req);
+        }
+        var response = await client.ExecuteAsync(request);
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            throw new GorseException
+            {
+                StatusCode = response.StatusCode,
+                Message = response.Content
+            };
+        }
+        else if (response.Content == null)
         {
             throw new GorseException
             {

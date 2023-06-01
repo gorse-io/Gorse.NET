@@ -1,8 +1,24 @@
 # Gorse.NET
 
 [![CI](https://github.com/gorse-io/Gorse.NET/actions/workflows/ci.yml/badge.svg)](https://github.com/gorse-io/Gorse.NET/actions/workflows/ci.yml)
+[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Gorse.NET)](https://www.nuget.org/packages/Gorse.NET/)
+[![Nuget](https://img.shields.io/nuget/dt/Gorse.NET)](https://www.nuget.org/packages/Gorse.NET/)
 
 .NET SDK for gorse recommender system
+
+## Install
+
+- Install via .NET CLI:
+
+```bash
+dotnet add package Gorse.NET
+```
+
+- Install via NuGet Package Manager:
+
+```bash
+NuGet\Install-Package Gorse.NET
+```
 
 ## Usage
 

@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the stack
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Check the deployed service health
         uses: jtalk/url-health-check-action@v2
         with:

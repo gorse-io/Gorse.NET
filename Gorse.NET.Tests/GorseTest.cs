@@ -32,7 +32,8 @@ public class Tests
         {
             returnUser = client.GetUser("1");
             Assert.Fail();
-        } catch (GorseException e)
+        }
+        catch (GorseException e)
         {
             Assert.That(e.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         }
@@ -114,5 +115,19 @@ public class Tests
         });
         var items = await client.GetRecommendAsync("10");
         Assert.That(items, Is.EqualTo(new string[] { "30", "20", "10" }));
+    }
+
+    [Test]
+    public void TestUserNeighbors()
+    {
+        var users = client.GetUserNeighbors("1");
+        Assert.IsNotNull(users, "User neighbors is should not be null.");
+    }
+
+    [Test]
+    public async Task TestUserNeighborsAsync()
+    {
+        var users = await client.GetUserNeighborsAsync("1");
+        Assert.IsNotNull(users, "User neighbors is should not be null.");
     }
 }

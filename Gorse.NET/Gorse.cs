@@ -21,6 +21,12 @@ public class User
     }
 }
 
+public class Neighbor
+{
+    public string UserId { get; set; }
+    public double Score { get; set; }
+}
+
 public class Feedback
 {
     public string FeedbackType { set; get; } = "";
@@ -44,7 +50,7 @@ public class Result
     }
 }
 
-public class GorseException: Exception
+public class GorseException : Exception
 {
     public HttpStatusCode StatusCode { set; get; }
     public new string? Message { set; get; }
@@ -110,7 +116,17 @@ public class Gorse
         return RequestAsync<string[], Object>(Method.Get, "api/recommend/" + userId, null);
     }
 
-    public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType: class
+    public List<Neighbor> GetUserNeighbors(string userId)
+    {
+        return Request<List<Neighbor>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
+    }
+
+    public Task<List<Neighbor>> GetUserNeighborsAsync(string userId)
+    {
+        return RequestAsync<List<Neighbor>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
+    }
+
+    public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class
     {
         var request = new RestRequest(resource, method);
         if (req != null)
@@ -125,7 +141,8 @@ public class Gorse
                 StatusCode = response.StatusCode,
                 Message = response.Content
             };
-        } else if (response.Content == null)
+        }
+        else if (response.Content == null)
         {
             throw new GorseException
             {

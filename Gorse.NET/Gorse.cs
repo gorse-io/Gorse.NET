@@ -21,9 +21,9 @@ public class User
     }
 }
 
-public class Neighbor
+public class UserScore
 {
-    public string UserId { get; set; }
+    public string UserId { get; set; } = "";
     public double Score { get; set; }
 }
 
@@ -116,14 +116,14 @@ public class Gorse
         return RequestAsync<string[], Object>(Method.Get, "api/recommend/" + userId, null);
     }
 
-    public List<Neighbor> GetUserNeighbors(string userId)
+    public List<UserScore> GetUserNeighbors(string userId)
     {
-        return Request<List<Neighbor>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
+        return Request<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
     }
 
-    public Task<List<Neighbor>> GetUserNeighborsAsync(string userId)
+    public Task<List<UserScore>> GetUserNeighborsAsync(string userId)
     {
-        return RequestAsync<List<Neighbor>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
+        return RequestAsync<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
     }
 
     public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class

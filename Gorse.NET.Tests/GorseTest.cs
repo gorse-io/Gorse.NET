@@ -104,6 +104,13 @@ public class Tests
     }
 
     [Test]
+    public void TestRecommend_Returns_Null()
+    {
+        var items = client.GetRecommend("40");
+        Assert.IsNull(items);
+    }
+
+    [Test]
     public async Task TestRecommendAsync()
     {
         var db = redis.GetDatabase();
@@ -115,6 +122,14 @@ public class Tests
         });
         var items = await client.GetRecommendAsync("10");
         Assert.That(items, Is.EqualTo(new string[] { "30", "20", "10" }));
+    }
+
+    [Test]
+    public async Task TestRecommendAsync_Returns_Null()
+    {
+
+        var items = await client.GetRecommendAsync("40");
+        Assert.IsNull(items);
     }
 
     [Test]

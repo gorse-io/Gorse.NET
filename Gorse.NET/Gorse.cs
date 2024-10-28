@@ -54,6 +54,12 @@ public class GorseException : Exception
 {
     public HttpStatusCode StatusCode { set; get; }
     public new string? Message { set; get; }
+
+    public GorseException(string? message, HttpStatusCode statusCode) : base(message)
+    {
+        Message = message;
+        StatusCode = statusCode;
+    }
 }
 
 public class Gorse
@@ -68,65 +74,65 @@ public class Gorse
 
     public Result InsertUser(User user)
     {
-        return Request<Result, User>(Method.Post, "api/user", user);
+        return Request<Result, User>(Method.Post, "api/user", user)!;
     }
 
     public Task<Result> InsertUserAsync(User user)
     {
-        return RequestAsync<Result, User>(Method.Post, "api/user", user);
+        return RequestAsync<Result, User>(Method.Post, "api/user", user)!;
     }
 
     public User GetUser(string userId)
     {
-        return Request<User, Object>(Method.Get, "api/user/" + userId, null);
+        return Request<User, Object>(Method.Get, "api/user/" + userId, null)!;
     }
 
     public Task<User> GetUserAsync(string userId)
     {
-        return RequestAsync<User, Object>(Method.Get, "api/user/" + userId, null);
+        return RequestAsync<User, Object>(Method.Get, "api/user/" + userId, null)!;
     }
 
     public Result DeleteUser(string userId)
     {
-        return Request<Result, Object>(Method.Delete, "api/user/" + userId, null);
+        return Request<Result, Object>(Method.Delete, "api/user/" + userId, null)!;
     }
 
     public Task<Result> DeleteUserAsync(string userId)
     {
-        return RequestAsync<Result, Object>(Method.Delete, "api/user/" + userId, null);
+        return RequestAsync<Result, Object>(Method.Delete, "api/user/" + userId, null)!;
     }
 
     public Result InsertFeedback(Feedback[] feedbacks)
     {
-        return Request<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks);
+        return Request<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks)!;
     }
 
     public Task<Result> InsertFeedbackAsync(Feedback[] feedbacks)
     {
-        return RequestAsync<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks);
+        return RequestAsync<Result, Feedback[]>(Method.Post, "api/feedback", feedbacks)!;
     }
 
-    public string[] GetRecommend(string userId)
+    public string[]? GetRecommend(string userId)
     {
         return Request<string[], Object>(Method.Get, "api/recommend/" + userId, null);
     }
 
-    public Task<string[]> GetRecommendAsync(string userId)
+    public Task<string[]?> GetRecommendAsync(string userId)
     {
         return RequestAsync<string[], Object>(Method.Get, "api/recommend/" + userId, null);
     }
 
     public List<UserScore> GetUserNeighbors(string userId)
     {
-        return Request<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
+        return Request<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null)!;
     }
 
     public Task<List<UserScore>> GetUserNeighborsAsync(string userId)
     {
-        return RequestAsync<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null);
+        return RequestAsync<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null)!;
     }
 
-    public RetType Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class
+    public RetType? Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class
     {
         var request = new RestRequest(resource, method);
         if (req != null)
@@ -134,35 +140,37 @@ public class Gorse
             request.AddJsonBody(req);
         }
         var response = client.Execute(request);
-        if (response.StatusCode != HttpStatusCode.OK)
+        if (!response.IsSuccessStatusCode)
         {
-            throw new GorseException
-            {
-                StatusCode = response.StatusCode,
-                Message = response.Content
-            };
+            throw new GorseException(message: response.Content, statusCode: response.StatusCode);
         }
-        else if (response.Content == null)
+        // Handle case where response content is null
+        if (response.Content == null)
         {
-            throw new GorseException
-            {
-                StatusCode = HttpStatusCode.InternalServerError,
-                Message = "unexcepted empty response"
-            };
+            return default;
         }
-        RetType? ret = JsonSerializer.Deserialize<RetType>(response.Content);
-        if (ret == null)
+        // Deserialize response content to the expected type
+        try
         {
-            throw new GorseException
-            {
-                StatusCode = HttpStatusCode.InternalServerError,
-                Message = "unexcepted null response"
-            };
+            return JsonSerializer.Deserialize<RetType>(response.Content);
         }
-        return ret;
+        catch (JsonException jsonEx) // Specific error handling for JSON deserialization
+        {
+            throw new GorseException(
+                message: $"Deserialization failed: {jsonEx}. \nResponse content: {response.Content}. \nStatus code: {response.StatusCode}",
+                statusCode: response.StatusCode
+            );
+        }
+        catch (Exception ex) // General error handling for any other exceptions
+        {
+            throw new GorseException(
+                message: $"An error occurred while processing the response: {ex}. \nResponse content: {response.Content}. \nStatus code: {response.StatusCode}",
+                statusCode: response.StatusCode
+            );
+        }
     }
 
-    public async Task<RetType> RequestAsync<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class
+    public async Task<RetType?> RequestAsync<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class
     {
         var request = new RestRequest(resource, method);
         if (req != null)
@@ -170,31 +178,33 @@ public class Gorse
             request.AddJsonBody(req);
         }
         var response = await client.ExecuteAsync(request);
-        if (response.StatusCode != HttpStatusCode.OK)
+        if (!response.IsSuccessStatusCode)
         {
-            throw new GorseException
-            {
-                StatusCode = response.StatusCode,
-                Message = response.Content
-            };
+            throw new GorseException(message: response.Content, statusCode: response.StatusCode);
         }
-        else if (response.Content == null)
+        // Handle case where response content is null
+        if (response.Content == null)
         {
-            throw new GorseException
-            {
-                StatusCode = HttpStatusCode.InternalServerError,
-                Message = "unexcepted empty response"
-            };
+            return default;
         }
-        RetType? ret = JsonSerializer.Deserialize<RetType>(response.Content);
-        if (ret == null)
+        // Deserialize response content to the expected type
+        try
         {
-            throw new GorseException
-            {
-                StatusCode = HttpStatusCode.InternalServerError,
-                Message = "unexcepted null response"
-            };
+            return JsonSerializer.Deserialize<RetType>(response.Content);
         }
-        return ret;
+        catch (JsonException jsonEx) // Specific error handling for JSON deserialization
+        {
+            throw new GorseException(
+                message: $"Deserialization failed: {jsonEx}. \nResponse content: {response.Content}. \nStatus code: {response.StatusCode}",
+                statusCode: response.StatusCode
+            );
+        }
+        catch (Exception ex) // General error handling for any other exceptions
+        {
+            throw new GorseException(
+                message: $"An error occurred while processing the response: {ex}. \nResponse content: {response.Content}. \nStatus code: {response.StatusCode}",
+                statusCode: response.StatusCode
+            );
+        }
     }
 }

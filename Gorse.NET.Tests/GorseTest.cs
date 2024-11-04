@@ -127,7 +127,6 @@ public class Tests
     [Test]
     public async Task TestRecommendAsync_Returns_Null()
     {
-
         var items = await client.GetRecommendAsync("40");
         Assert.IsNull(items);
     }

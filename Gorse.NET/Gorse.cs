@@ -122,14 +122,14 @@ public class Gorse
         return RequestAsync<string[], Object>(Method.Get, "api/recommend/" + userId, null);
     }
 
-    public List<UserScore> GetUserNeighbors(string userId)
+    public List<UserScore> GetUserNeighbors(string userId, int n = 100, int offset = 0)
     {
-        return Request<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null)!;
+        return Request<List<UserScore>, object>(Method.Get, $"api/user/{userId}/neighbors?n={n}&offset={offset}", null)!;
     }
 
-    public Task<List<UserScore>> GetUserNeighborsAsync(string userId)
+    public Task<List<UserScore>> GetUserNeighborsAsync(string userId, int n = 100, int offset = 0)
     {
-        return RequestAsync<List<UserScore>, Object>(Method.Get, @"api/user/{userId}/neighbors", null)!;
+        return RequestAsync<List<UserScore>, object>(Method.Get, $"api/user/{userId}/neighbors?n={n}&offset={offset}", null)!;
     }
 
     public RetType? Request<RetType, ReqType>(Method method, string resource, ReqType? req) where ReqType : class

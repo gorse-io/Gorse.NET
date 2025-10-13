@@ -16,8 +16,7 @@ public partial class Tests
         {
             UserId = "user123",
             Labels = new string[] { "outgoing", "optimistic", "creative" },
-            Comment = "Initial user creation",
-            Subscribe = new string[] { "news", "updates", "offers" }
+            Comment = "Initial user creation"
         };
         var rowAffected = client.InsertUser(user);
         Assert.That(rowAffected.RowAffected, Is.EqualTo(1));
@@ -29,7 +28,6 @@ public partial class Tests
         // Update the user with new details
         user.Labels = new string[] { "introverted", "thoughtful", "analytical" };
         user.Comment = "Updated user profile";
-        user.Subscribe = new string[] { "promotions", "alerts", "newsletters" };
         rowAffected = client.UpdateUser(user.UserId, user);
         Assert.That(rowAffected.RowAffected, Is.EqualTo(1));
 
@@ -72,7 +70,6 @@ public partial class Tests
         // Update the user with new details
         user.Labels = new string[] { "introverted", "thoughtful", "analytical" };
         user.Comment = "Updated user profile";  // Updated comment
-        user.Subscribe = new string[] { "promotions", "alerts", "newsletters" };
         rowAffected = await client.UpdateUserAsync(user.UserId, user);
         Assert.That(rowAffected.RowAffected, Is.EqualTo(1));
 
@@ -105,14 +102,12 @@ public partial class Tests
             new User{
                 UserId = "user123",
                 Labels = new string[] { "outgoing", "optimistic", "creative" },
-                Comment = "Initial user creation",
-                Subscribe = new string[] { "news", "updates", "offers" }
+                Comment = "Initial user creation"
             },
             new User{
                 UserId = "user456",
                 Labels = new string[] { "introverted", "thoughtful", "analytical" },
-                Comment = "Second user creation",
-                Subscribe = new string[] { "promotions", "alerts", "newsletters" }
+                Comment = "Second user creation"
             },
         };
 
@@ -158,14 +153,12 @@ public partial class Tests
             new User{
                 UserId = "user123",
                 Labels = new string[] { "outgoing", "optimistic", "creative" },
-                Comment = "Initial user creation",
-                Subscribe = new string[] { "news", "updates", "offers" }
+                Comment = "Initial user creation"
             },
             new User{
                 UserId = "user456",  // Descriptive UserId
                 Labels = new string[] { "introverted", "thoughtful", "analytical" },
-                Comment = "Second user creation",
-                Subscribe = new string[] { "promotions", "alerts", "newsletters" }
+                Comment = "Second user creation"
             },
         };
 

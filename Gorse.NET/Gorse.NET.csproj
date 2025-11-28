@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Gorse.NET</PackageId>
-    <Version>0.4.1</Version>
+    <Version>0.5.0</Version>
     <Authors>zhenghaoz</Authors>
     <Company>gorse.io</Company>
     <PackageReadmeFile>README.md</PackageReadmeFile>

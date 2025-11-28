@@ -9,6 +9,7 @@
     <Authors>zhenghaoz</Authors>
     <Company>gorse.io</Company>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>

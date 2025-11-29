@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
       - run: dotnet pack
       - name: Publish to NuGet
         run: dotnet nuget push Gorse.NET/bin/Release/Gorse.NET.*.nupkg --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json

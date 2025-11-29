@@ -10,20 +10,14 @@ on:
 
 jobs:
   unit-test:
-
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['3.0', '3.1.x', '5.0.x' ]
-
     steps:
       - uses: actions/checkout@v3
       - name: Setup test
         run: curl -sL https://raw.githubusercontent.com/gorse-io/gorse/refs/heads/master/client/setup-test.sh | bash
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: '8.0.x'
       - name: Install dependencies
         run: dotnet restore
       - name: Build

@@ -24,17 +24,39 @@ NuGet\Install-Package Gorse.NET
 
 ```c#
 using Gorse.NET;
+using Gorse.NET.Models;
 
 var client = new Gorse("http://127.0.0.1:8087", "api_key");
 
-client.InsertFeedback(new Feedback[]
+// Insert a user
+client.InsertUser(new User
 {
-    new Feedback{FeedbackType="star", UserId="bob", ItemId="vuejs:vue", Timestamp="2022-02-24"},
-    new Feedback{FeedbackType="star", UserId="bob", ItemId="d3:d3", Timestamp="2022-02-25"},
-    new Feedback{FeedbackType="star", UserId="bob", ItemId="dogfalo:materialize", Timestamp="2022-02-26"},
-    new Feedback{FeedbackType="star", UserId="bob", ItemId="mozilla:pdf.js", Timestamp="2022-02-27"},
-    new Feedback{FeedbackType="star", UserId="bob", ItemId="moment:moment", Timestamp="2022-02-28"},
+    UserId = "100",
+    Labels = new { gender = "M", occupation = "engineer" },
+    Comment = "user comment",
 });
 
-client.GetRecommend("10");
+// Insert an item
+client.InsertItem(new Item
+{
+    ItemId = "200",
+    IsHidden = false,
+    Labels = new Dictionary<string, object>
+    {
+        { "embedding", new List<double> { 0.1, 0.2, 0.3 } }
+    },
+    Categories = new[] { "Comedy", "Animation" },
+    TimeStamp = DateTime.UtcNow,
+    Comment = "item comment",
+});
+
+// Insert feedback
+client.InsertFeedback(new Feedback[]
+{
+    new Feedback{FeedbackType="star", UserId="100", ItemId="200", Timestamp=DateTime.UtcNow.ToString("yyyy-MM-dd")},
+    new Feedback{FeedbackType="like", UserId="100", ItemId="200", Timestamp=DateTime.UtcNow.ToString("yyyy-MM-dd")},
+});
+
+// Get recommendations
+client.GetRecommend("100");
 ```

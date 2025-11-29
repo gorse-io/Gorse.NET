@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1704.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gorse.NET", "Gorse.NET\Gorse.NET.csproj", "{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gorse.NET", "Gorse.NET\Gorse.NET.csproj", "{0CD5589D-0B23-4AE5-8F81-8292C799B8B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gorse.NET.Tests", "Gorse.NET.Tests\Gorse.NET.Tests.csproj", "{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gorse.NET.Tests", "Gorse.NET.Tests\Gorse.NET.Tests.csproj", "{BBDE8302-8E94-48A3-B4D8-AB0F589561B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,6 +15,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup test
         run: curl -sL https://raw.githubusercontent.com/gorse-io/gorse/refs/heads/master/client/setup-test.sh | bash
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
       - name: Install dependencies
         run: dotnet restore
       - name: Build

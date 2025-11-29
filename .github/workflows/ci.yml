@@ -21,7 +21,7 @@ jobs:
       - name: Setup test
         run: curl -sL https://raw.githubusercontent.com/gorse-io/gorse/refs/heads/master/client/setup-test.sh | bash
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Install dependencies
